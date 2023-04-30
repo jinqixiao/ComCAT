@@ -22,7 +22,7 @@ from timm.optim import create_optimizer
 from timm.utils import NativeScaler, ModelEma
 
 import engine
-from VisionTransformer.SVDLinear import SVDLinear
+from SVDLinear import SVDLinear
 from datasets import build_dataset
 from engine import train_one_epoch, evaluate, add_hook_to_models
 from losses import DistillationLoss, DistillationLossWithoutToken
@@ -321,7 +321,7 @@ def main(args):
 
     data_loader_4_search = torch.utils.data.DataLoader(
         dataset_val, sampler=sampler_val,
-        batch_size=128,
+        batch_size=args.batch_size_search,
         num_workers=args.num_workers,
         pin_memory=args.pin_mem,
         drop_last=False
@@ -536,7 +536,7 @@ def main(args):
 
     if args.finetune_rank_dir is not None:
         checkpoint = torch.load(args.finetune_rank_dir + '/checkpoint.pth', map_location='cpu')
-        f = open(args.finetune_rank_dir, 'r')
+        f = open(args.finetune_rank_dir + '/ranks.txt', 'r')
         ranks = f.readline()
         f.close()
         ranks = list(map(int, ranks.split(',')))
@@ -563,6 +563,12 @@ def main(args):
         model = new_model
         total_params = sum(param.numel() for param in model.parameters())
         print('params:', total_params)
+        # copy ranks to output dir
+        if not args.eval:
+            f = open(args.output_dir + '/ranks.txt', 'w')
+            f.write(','.join([str(r) for r in ranks]))
+            f.close()
+
     model.to(device)
     model_without_ddp = model
     optimizer = create_optimizer(args, model_without_ddp)
@@ -685,26 +691,15 @@ def main(args):
     output_dir = Path(args.output_dir)
 
     if args.eval:
-        # model.convert2attn2()
-        # print(model)
         if args.decomposed:
             model = decompose(model, device, args)
         test_stats = evaluate(data_loader_val, model, device)
         print(f"Accuracy of the network on the {len(dataset_val)} test images: {test_stats['acc1']:.1f}%")
-        torch.save(model.state_dict(), 'newsvd_base.pt')
         return
 
     print(f"Start training for {args.epochs} epochs")
     start_time = time.time()
     max_accuracy = 0.0
-    # admm = None
-    # if args.admm:
-    #     attn = model.module.blocks[0].attn
-    #     hp_dict = hp_dicts.svd_tiny_hp.HyperParamsDictNas()
-    #     admm_compression_ratio = args.admm_compression_ratio
-    #     admm = ADMM(model=model.module, rho=args.admm_rho, hp_dict=hp_dict, format='SVD', device=device,
-    #                 num_heads=attn.num_heads, head_dim=attn.head_dim, compression_ratio=admm_compression_ratio)
-    #     admm.update(update_u=False)
     temperature = 5
     exp_anneal_rate = np.power(0.1 / temperature, 1 / args.epochs)
     AttentionNewSVD4AutoRank.temperature = temperature
@@ -725,9 +720,6 @@ def main(args):
                 block.mlp.fc2.set_rank(ranks, use_argmax)
             model_without_ddp.head.set_rank(ranks, use_argmax)
             print('ranks:', ranks)
-            f = open(args.output_dir + '/ranks.txt', 'w')
-            f.write(','.join(ranks))
-            f.close()
             new_model = create_model(
                 args.model,
                 pretrained=False,
@@ -773,7 +765,7 @@ def main(args):
         alpha = 1
         lr_scheduler.step(epoch)
         if args.distillation_without_token:
-            if args.finetune_rankfinetune_rank_dir is not None:
+            if args.finetune_rank_dir is not None:
                 alpha = 0
             else:
                 alpha = math.cos(math.pi * 0.5 * epoch / args.epochs)
@@ -799,6 +791,10 @@ def main(args):
                     'scaler': loss_scaler.state_dict(),
                     'args': args,
                 }, checkpoint_path)
+            if epoch > 0 and args.search_rank:
+                f = open(args.output_dir + '/ranks.txt', 'w')
+                f.write(','.join([str(r) for r in ranks]))
+                f.close()
 
         test_stats = evaluate(data_loader_val, model, device)
         print(f"Accuracy of the network on the {len(dataset_val)} test images: {test_stats['acc1']:.1f}%")

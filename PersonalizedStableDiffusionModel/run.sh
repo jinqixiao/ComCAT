@@ -3,7 +3,6 @@ name=$1
 export MODEL_NAME="CompVis/stable-diffusion-v1-4"
 export INSTANCE_DIR="./data_example/$name"
 export OUTPUT_DIR="./output_example/$name"
-#export OUTPUT_DIR="./test"
 
 CUDA_VISIBLE_DEVICES=1 accelerate launch train_comcat_dreambooth.py \
 from lora_diffusion import monkeypatch_new_lora, tune_new_lora_scale

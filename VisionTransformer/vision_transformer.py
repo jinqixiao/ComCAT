@@ -364,8 +364,7 @@ class Block(nn.Module):
 
     def __init__(self, dim, num_heads, mlp_ratio=4., qkv_bias=False, drop=0., attn_drop=0.,
                  drop_path=0., act_layer=nn.GELU, norm_layer=nn.LayerNorm, use_attn2=False, new_svd=True,
-                 attn_compress_ratio=None, mlp_compress_ratio=None, mlp_decomposed_method=None, attn2_with_bias=False,
-                 use_attn_admm=False, search_rank=False, ranks=None):
+                 attn_compress_ratio=None, attn2_with_bias=False, search_rank=False, ranks=None):
         super().__init__()
         self.norm1 = norm_layer(dim)
         # qkv_bias = False
@@ -393,7 +392,6 @@ class Block(nn.Module):
         self.norm2 = norm_layer(dim)
         mlp_hidden_dim = int(dim * mlp_ratio)
         self.mlp = mlp_decomposed.Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop,
-                                      mlp_decomposed_method=mlp_decomposed_method, compression_ratio=mlp_compress_ratio,
                                       search_rank=search_rank, ranks=ranks)
 
     def convert2attn2(self):
@@ -438,8 +436,7 @@ class VisionTransformer(nn.Module):
                  num_heads=12, mlp_ratio=4., qkv_bias=True, representation_size=None, distilled=False,
                  drop_rate=0., attn_drop_rate=0., drop_path_rate=0., embed_layer=PatchEmbed, norm_layer=None,
                  act_layer=None, weight_init='', use_attn2=False, new_svd=False, attn_compress_ratio=None,
-                 mlp_compress_ratio=None, mlp_decomposed_method=None, attn2_with_bias=False, use_attn_admm=False,
-                 search_rank=False, ranks=None, com_depth=None):
+                 attn2_with_bias=False, search_rank=False, ranks=None, com_depth=None):
         """
         Args:
             img_size (int, tuple): input image size
@@ -485,8 +482,7 @@ class VisionTransformer(nn.Module):
                     dim=embed_dim, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, drop=drop_rate,
                     attn_drop=attn_drop_rate, drop_path=dpr[i], norm_layer=norm_layer, act_layer=act_layer,
                     use_attn2=use_attn2, new_svd=new_svd, attn_compress_ratio=attn_compress_ratio,
-                    mlp_compress_ratio=mlp_compress_ratio, mlp_decomposed_method=mlp_decomposed_method,
-                    attn2_with_bias=attn2_with_bias, use_attn_admm=use_attn_admm, search_rank=search_rank,
+                    attn2_with_bias=attn2_with_bias, search_rank=search_rank,
                     ranks=ranks[i * 4:i * 4 + 4])
                 for i in range(depth)])
         else:
@@ -495,8 +491,7 @@ class VisionTransformer(nn.Module):
                     dim=embed_dim, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, drop=drop_rate,
                     attn_drop=attn_drop_rate, drop_path=dpr[i], norm_layer=norm_layer, act_layer=act_layer,
                     use_attn2=use_attn2, new_svd=new_svd, attn_compress_ratio=attn_compress_ratio,
-                    mlp_compress_ratio=mlp_compress_ratio, mlp_decomposed_method=mlp_decomposed_method,
-                    attn2_with_bias=attn2_with_bias, use_attn_admm=use_attn_admm, search_rank=search_rank,
+                    attn2_with_bias=attn2_with_bias, search_rank=search_rank,
                     ranks=ranks)
                 for i in range(depth)])
         self.norm = norm_layer(embed_dim)

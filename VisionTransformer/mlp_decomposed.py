@@ -5,15 +5,15 @@ Hacked together by / Copyright 2020 Ross Wightman
 from torch import nn as nn
 
 from timm.models.layers.helpers import to_2tuple
-from TensorLinear import create_tensor_linear
 from SVDLinear4AutoRank import SVDLinear4AutoRank
+
 
 class Mlp(nn.Module):
     """ MLP as used in Vision Transformer, MLP-Mixer and related networks
     """
 
     def __init__(self, in_features, hidden_features=None, out_features=None, act_layer=nn.GELU, drop=0.,
-                 mlp_decomposed_method=None, compression_ratio=0.5, search_rank=False, ranks=None):
+                 search_rank=False, ranks=None):
         super().__init__()
         out_features = out_features or in_features
         hidden_features = hidden_features or in_features
@@ -25,9 +25,6 @@ class Mlp(nn.Module):
             if ranks is not None:
                 rank = ranks[2]
             self.fc1 = SVDLinear4AutoRank(fc1, rank)
-        elif mlp_decomposed_method:
-            self.fc1 = create_tensor_linear(in_features, hidden_features, bias=True, ratio=compression_ratio,
-                                            method=mlp_decomposed_method)
         else:
             self.fc1 = nn.Linear(in_features, hidden_features)
         self.act = act_layer()
@@ -38,9 +35,6 @@ class Mlp(nn.Module):
             if ranks is not None:
                 rank = ranks[3]
             self.fc2 = SVDLinear4AutoRank(fc2, rank)
-        elif mlp_decomposed_method:
-            self.fc2 = create_tensor_linear(hidden_features, out_features, bias=True, ratio=compression_ratio,
-                                            method=mlp_decomposed_method)
         else:
             self.fc2 = nn.Linear(hidden_features, out_features)
         self.drop2 = nn.Dropout(drop_probs[1])
@@ -60,6 +54,7 @@ class Mlp(nn.Module):
         x, f = self.fc2.search_rank_forward(x, f)
         x = self.drop2(x)
         return x, f
+
 
 class GluMlp(nn.Module):
     """ MLP w/ GLU style gating

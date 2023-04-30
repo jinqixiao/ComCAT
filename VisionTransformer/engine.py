@@ -222,7 +222,7 @@ def search_rank(data_loader, model, device, rank_optimizer, target_params, beta=
     print('* Acc@1 {top1.global_avg:.3f} Acc@5 {top5.global_avg:.3f} loss {losses.global_avg:.3f}'
           .format(top1=metric_logger.acc1, top5=metric_logger.acc5, losses=metric_logger.loss))
     torch.cuda.synchronize()
-    print('flops, target_flops', int(params), int(target_params))
+    print('params, target_params', int(params), int(target_params))
     return {k: meter.global_avg for k, meter in metric_logger.meters.items()}
 
 
