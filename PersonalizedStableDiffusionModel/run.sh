@@ -5,7 +5,6 @@ export INSTANCE_DIR="./data_example/$name"
 export OUTPUT_DIR="./output_example/$name"
 
 CUDA_VISIBLE_DEVICES=1 accelerate launch train_comcat_dreambooth.py \
-from lora_diffusion import monkeypatch_new_lora, tune_new_lora_scale
   --pretrained_model_name_or_path=$MODEL_NAME  \
   --instance_data_dir=$INSTANCE_DIR \
   --output_dir=$OUTPUT_DIR \
@@ -16,5 +15,9 @@ from lora_diffusion import monkeypatch_new_lora, tune_new_lora_scale
   --learning_rate=2.5e-3 \
   --lr_scheduler="linear" \
   --lr_warmup_steps=0 \
-  --comcat-rank=2 \
+  --comcat_rank=2 \
   --max_train_steps=500
+
+
+pip install diffusers==0.10.2
+pip install transformers==4.25.1

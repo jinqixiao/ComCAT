@@ -3,7 +3,7 @@ import torch
 
 import torch.nn as nn
 
-from comcat_attention import CrossAttentionSVD, CLIPAttentionSVD
+from comcat_diffusion.comcat_attention import CrossAttentionSVD, CLIPAttentionSVD
 
 
 def inject_trainable_comcat(

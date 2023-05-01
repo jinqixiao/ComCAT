@@ -25,7 +25,6 @@ from diffusers import (
 )
 from diffusers.optimization import get_scheduler
 from huggingface_hub import HfFolder, Repository, whoami
-
 from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
 
@@ -871,7 +870,7 @@ def main(args):
             revision=args.revision,
         )
 
-        print("\n\nLora TRAINING DONE!\n\n")
+        print("\n\nComCat TRAINING DONE!\n\n")
 
         save_comcat_weight(unet_comcat_params, args.output_dir + "/comcat_weight.pt")
 
