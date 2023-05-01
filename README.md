@@ -19,6 +19,11 @@ ComCAT explores an efficient method for compressing vision transformers to enric
 # Performance
 For compressing DeiTsmall and DeiT-base models on ImageNet, ComCAT can achieve 0.45% and 0.76% higher top-1 accuracy even with fewer parameters. ComCAT can also be applied to improve the customization efficiency of text-to-image diffusion models, with much faster training (up to 2.6× speedup) and lower extra storage cost (up to 1927.5× reduction) than the existing works.
 
+#### Compressing vision transformer using low-rank MHA layers and automatic rank selection.
+<p align="center">
+    <img src="figures/autorank.png"/>
+</p>
+
 ### Training
 ````
 # DeiT-small
@@ -54,13 +59,6 @@ curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=1G3xDUZsX
 curl -Lb ./cookie "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' ./cookie`&id=1G3xDUZsXLkvv0ZCo5QmDKqCIsxgdBbnJ" -o base_82.28_0.61/checkpoint.pth
 python -m torch.distributed.launch --nproc_per_node=4 --use_env  main.py --model deit_base_patch16_224 --data-path /raid/data/ilsvrc2012/ --batch-size 256 --finetune-rank-dir base_82.28_0.61 --attn2-with-bias --eval
 ````
-
-#### Compressing vision transformer using low-rank MHA layers and automatic rank selection.
-<p align="center">
-    <img src="figures/autorank.png"/>
-</p>
-
-
 
 #### Customizing text-to-image diffusion model using low-rank MHA mechanism.
 <p align="center">
