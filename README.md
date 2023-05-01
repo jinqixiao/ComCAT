@@ -10,7 +10,7 @@
 ```
 
 # What is ComCAT?
-#### Head-level low-rankness of MHA layer.
+<!-- #### Head-level low-rankness of MHA layer. -->
 <p align="center">
     <img src="figures/lowrank.png"/  width="60%">
 </p>
