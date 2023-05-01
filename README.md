@@ -64,10 +64,12 @@ python -m torch.distributed.launch --nproc_per_node=4 --use_env  main.py --model
 <p align="center">
     <img src="figures/finetune_diffusion.png"/>
 </p>
+
 ### Fine-tuning
 ````
 sh run.sh dog
 ````
+
 ### Generate images
 ````
 python test.py
