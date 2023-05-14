@@ -79,12 +79,14 @@ pip install diffusers==0.10.2
 pip install transformers==4.25.1
 ````
 
-### Fine-tuning
-````
-sh run.sh dog
-````
-
 ### Generate images
 ````
-python test.py
+refer to 
 ````
+
+### Fine-tuning
+````
+sh run.sh goldendoodle
+````
+
+
