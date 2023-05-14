@@ -80,7 +80,7 @@ pip install transformers==4.25.1
 ````
 
 ### Generate images
-refer to [finetune_goldendoodle.ipynb](/PersonalizedStableDiffusionModel/finetune_goldendoodle.ipynb)
+Refer to [finetune_goldendoodle.ipynb](/PersonalizedStableDiffusionModel/finetune_goldendoodle.ipynb)
 
 ### Fine-tuning
 ````
