@@ -73,6 +73,12 @@ python -m torch.distributed.launch --nproc_per_node=4 --use_env  main.py --model
     <img src="figures/finetune_diffusion.png"/>
 </p>
 
+### Setup
+````
+conda install -c pytorch pytorch torchvision
+pip install timm==0.3.2
+````
+
 ### Fine-tuning
 ````
 sh run.sh dog
