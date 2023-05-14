@@ -12,7 +12,7 @@
 # What is ComCAT?
 <!-- #### Head-level low-rankness of MHA layer. -->
 <p align="center">
-    <img src="figures/lowrank.png"/  width="60%">
+    <img src="figures/lowrank.png"/  width="55%">
 </p>
 ComCAT explores an efficient method for compressing vision transformers to enrich the toolset for obtaining compact attention-based vision models. Based on the new insight on the multi-head attention layer, we develop a highly efficient ViT compression solution, which outperforms the state-of-the-art pruning methods, bringing highly efficient low-rank attention-based vision model compression solution.  
 
@@ -22,7 +22,7 @@ For compressing DeiTsmall and DeiT-base models on ImageNet, ComCAT can achieve 0
 
 #### Compressing vision transformer using low-rank MHA layers and automatic rank selection.
 <p align="center">
-    <img src="figures/autorank.png"/ width="80%">
+    <img src="figures/autorank.png"/ width="85%">
 </p>
 
 ### Setup
