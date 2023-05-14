@@ -11,9 +11,6 @@ def inject_trainable_comcat(
         rank=2,
         target_replace_module="CrossAttention",
 ):
-    """
-    inject lora into model, and returns lora parameter groups.
-    """
     if target_replace_module not in ['CLIPAttention', 'CrossAttention']:
         print('Unsupported Attention type:', target_replace_module)
         exit(1)
@@ -56,7 +53,7 @@ def inject_trainable_comcat(
 
 
 def save_comcat_weight(
-        params, path="./comcat.pt"
+        params, path="./comcat_weight.pt"
 ):
     torch.save(params, path)
 
@@ -70,33 +67,33 @@ def tune_comcat_scale(model_type, alpha: float = 1.0):
         print('Only support unet and text_encoder!')
 
 
-def monkeypatch_comcat(
-        model, lora_params, target_replace_module="CrossAttention"
+def patch_from_comcat_weight(
+        model, params, target_replace_module="CrossAttention", rank=2
 ):
     if target_replace_module == "CrossAttention":
         blocks = model.down_blocks[:3] + model.up_blocks[1:4] + [model.mid_block]
         for block in blocks:
             for attn in block.attentions:
                 for transformer_block in attn.transformer_blocks:
-                    transformer_block.attn1 = CrossAttentionSVD(transformer_block.attn1)
-                    transformer_block.attn2 = CrossAttentionSVD(transformer_block.attn2)
+                    transformer_block.attn1 = CrossAttentionSVD(transformer_block.attn1, rank)
+                    transformer_block.attn2 = CrossAttentionSVD(transformer_block.attn2, rank)
                     for a in [transformer_block.attn1, transformer_block.attn2]:
-                        a.to_q.weight.data = lora_params.pop(0)
-                        a.to_k.weight.data = lora_params.pop(0)
-                        a.to_v.weight.data = lora_params.pop(0)
-                        a.to_out.weight.data = lora_params.pop(0)
-                        # a.to_out.bias.data = lora_params.pop(0)
+                        a.to_q.weight.data = params.pop(0)
+                        a.to_k.weight.data = params.pop(0)
+                        a.to_v.weight.data = params.pop(0)
+                        a.to_out.weight.data = params.pop(0)
+                        # a.to_out.bias.data = params.pop(0)
     elif target_replace_module == "CLIPAttention":
         for layer in model.text_model.encoder.layers:
-            layer.self_attn = CLIPAttentionSVD(layer.self_attn)
+            layer.self_attn = CLIPAttentionSVD(layer.self_attn, rank)
             a = layer.self_attn
-            a.q_proj.weight.data = lora_params.pop(0)
-            a.k_proj.weight.data = lora_params.pop(0)
-            a.v_proj.weight.data = lora_params.pop(0)
-            a.out_proj.weight.data = lora_params.pop(0)
-            a.out_proj.bias.data = lora_params.pop(0)
-            a.qk_bias.data = lora_params.pop(0)
-    if len(lora_params) > 0:
+            a.q_proj.weight.data = params.pop(0)
+            a.k_proj.weight.data = params.pop(0)
+            a.v_proj.weight.data = params.pop(0)
+            a.out_proj.weight.data = params.pop(0)
+            a.out_proj.bias.data = params.pop(0)
+            a.qk_bias.data = params.pop(0)
+    if len(params) > 0:
         print('Load Error!!')
         exit(1)
 
