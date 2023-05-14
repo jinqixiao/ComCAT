@@ -67,7 +67,7 @@ curl -Lb ./cookie "https://drive.google.com/uc?export=download&confirm=`awk '/do
 python -m torch.distributed.launch --nproc_per_node=4 --use_env  main.py --model deit_base_patch16_224 --data-path /raid/data/ilsvrc2012/ --batch-size 256 --finetune-rank-dir base_82.28_0.61 --attn2-with-bias --eval
 ````
 
-# Fast Fine-tuning for text-to-image diffusion model
+# Fast Fine-tuning for Text-to-image Diffusion Model
 #### Customizing text-to-image diffusion model using low-rank MHA mechanism.
 <p align="center">
     <img src="figures/finetune_diffusion.png"/>
