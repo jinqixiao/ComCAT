@@ -22,7 +22,7 @@ For compressing DeiTsmall and DeiT-base models on ImageNet, ComCAT can achieve 0
 
 #### Compressing vision transformer using low-rank MHA layers and automatic rank selection.
 <p align="center">
-    <img src="figures/autorank.png"/>
+    <img src="figures/autorank.png"/ width="60%">
 </p>
 
 ### Setup
