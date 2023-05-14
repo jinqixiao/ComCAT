@@ -28,7 +28,7 @@ For compressing DeiTsmall and DeiT-base models on ImageNet, ComCAT can achieve 0
 ### Setup
 ````
 conda install -c pytorch pytorch torchvision
-pip install timm==0.3.2
+pip install timm==0.5.4
 ````
 
 ### Training
@@ -75,8 +75,8 @@ python -m torch.distributed.launch --nproc_per_node=4 --use_env  main.py --model
 
 ### Setup
 ````
-conda install -c pytorch pytorch torchvision
-pip install timm==0.3.2
+pip install diffusers==0.10.2
+pip install transformers==4.25.1
 ````
 
 ### Fine-tuning
