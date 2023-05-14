@@ -25,6 +25,10 @@ For compressing DeiTsmall and DeiT-base models on ImageNet, ComCAT can achieve 0
     <img src="figures/autorank.png"/>
 </p>
 
+### Setup
+
+
+
 ### Training
 ````
 # DeiT-small
