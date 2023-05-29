@@ -55,13 +55,13 @@ python -m torch.distributed.launch --nproc_per_node=4 --use_env  main.py --model
 ### Inference
 ````
 mkdir small_79.58_0.44
-wget https://github.com/jinqixiao/ComCAT/releases/download/untagged-5dcf7601d9facf90045a/small_checkpoint.pth > small_79.58_0.44/checkpoint.pth
-wget https://github.com/jinqixiao/ComCAT/releases/download/untagged-5dcf7601d9facf90045a/small_ranks.txt > small_79.58_0.44/ranks.txt
+wget https://github.com/jinqixiao/ComCAT/releases/download/comcatv1.0/small_checkpoint.pth > small_79.58_0.44/checkpoint.pth
+wget https://github.com/jinqixiao/ComCAT/releases/download/comcatv1.0/small_ranks.txt > small_79.58_0.44/ranks.txt
 python -m torch.distributed.launch --nproc_per_node=4 --use_env  main.py --model deit_small_patch16_224 --data-path /path/to/imagenet/ --batch-size 256 --finetune-rank-dir small_79.58_0.44 --attn2-with-bias --eval
 
 mkdir base_82.28_0.61
-wget https://github.com/jinqixiao/ComCAT/releases/download/untagged-5dcf7601d9facf90045a/checkpoint.pth > base_82.28_0.61/checkpoint.pth
-wget https://github.com/jinqixiao/ComCAT/releases/download/untagged-5dcf7601d9facf90045a/ranks.txt > base_82.28_0.61/ranks.txt
+wget https://github.com/jinqixiao/ComCAT/releases/download/comcatv1.0/checkpoint.pth > base_82.28_0.61/checkpoint.pth
+wget https://github.com/jinqixiao/ComCAT/releases/download/comcatv1.0/ranks.txt > base_82.28_0.61/ranks.txt
 python -m torch.distributed.launch --nproc_per_node=4 --use_env  main.py --model deit_base_patch16_224 --data-path /path/to/imagenet/ --batch-size 256 --finetune-rank-dir base_82.28_0.61 --attn2-with-bias --eval
 ````
 
