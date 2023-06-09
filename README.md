@@ -1,7 +1,7 @@
-# COMCAT: Efficient Compression and Customization of Attention-based Visual Models [[arXiv]](https://arxiv.org/abs/2305.17235) 
+# COMCAT: Towards Efficient Compression and Customization of Attention-Based Vision Models [[arXiv]](https://arxiv.org/abs/2305.17235) 
 ```bash
 @article{xiao2023comcat,
-  title={COMCAT: Efficient Compression and Customization of Attention-based Visual Models},
+  title={COMCAT: Towards Efficient Compression and Customization of Attention-Based Vision Models},
   author={Xiao, Jinqi and Yin, Miao and Gong, Yu and Zang, Xiao and Ren, Jian and Yuan, Bo},
   journal={arXiv preprint arXiv:2305.17235},
   year={2023}
