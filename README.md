@@ -1,4 +1,4 @@
-# COMCAT: Towards Efficient Compression and Customization of Attention-Based Vision Models [[arXiv]](https://arxiv.org/abs/2305.17235) 
+# COMCAT: Towards Efficient Compression and Customization of Attention-Based Vision Models [[arXiv]](https://arxiv.org/abs/2305.17235) [[PMLR]](https://proceedings.mlr.press/v202/xiao23e.html)
 ```bash
 
 @InProceedings{pmlr-v202-xiao23e,
