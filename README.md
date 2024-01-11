@@ -1,11 +1,21 @@
 # COMCAT: Towards Efficient Compression and Customization of Attention-Based Vision Models [[arXiv]](https://arxiv.org/abs/2305.17235) 
 ```bash
-@article{xiao2023comcat,
-  title={COMCAT: Towards Efficient Compression and Customization of Attention-Based Vision Models},
-  author={Xiao, Jinqi and Yin, Miao and Gong, Yu and Zang, Xiao and Ren, Jian and Yuan, Bo},
-  journal={arXiv preprint arXiv:2305.17235},
-  year={2023}
+
+@InProceedings{pmlr-v202-xiao23e,
+  title = 	 {{COMCAT}: Towards Efficient Compression and Customization of Attention-Based Vision Models},
+  author =       {Xiao, Jinqi and Yin, Miao and Gong, Yu and Zang, Xiao and Ren, Jian and Yuan, Bo},
+  booktitle = 	 {Proceedings of the 40th International Conference on Machine Learning},
+  pages = 	 {38125--38136},
+  year = 	 {2023},
+  editor = 	 {Krause, Andreas and Brunskill, Emma and Cho, Kyunghyun and Engelhardt, Barbara and Sabato, Sivan and Scarlett, Jonathan},
+  volume = 	 {202},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {23--29 Jul},
+  publisher =    {PMLR},
+  pdf = 	 {https://proceedings.mlr.press/v202/xiao23e/xiao23e.pdf},
+  url = 	 {https://proceedings.mlr.press/v202/xiao23e.html}
 }
+
 ```
 
 # What is ComCAT?
